@@ -248,9 +248,61 @@
   }
   .btn-open:hover { background: var(--sand-dark); }
   .copied-msg { font-size: 0.78rem; color: var(--green); text-align: center; margin-top: 8px; display: none; }
+
+  /* PASSWORD SCREEN */
+  #lockScreen {
+    position: fixed; inset: 0; background: var(--sand);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 999; padding: 1rem;
+  }
+  .lock-card {
+    background: var(--white); border-radius: 16px;
+    border: 1px solid var(--sand-dark);
+    padding: 2.5rem 2rem; width: 100%; max-width: 360px;
+    text-align: center; box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+  }
+  .lock-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+  .lock-card h2 { font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.3rem; }
+  .lock-card p { font-size: 0.85rem; color: var(--ink-light); margin-bottom: 1.5rem; }
+  .lock-input {
+    width: 100%; padding: 11px 14px; border-radius: 9px;
+    border: 1.5px solid var(--sand-dark); background: var(--sand);
+    font-family: 'DM Sans', sans-serif; font-size: 1rem;
+    color: var(--ink); outline: none; text-align: center;
+    letter-spacing: 0.1em; margin-bottom: 0.75rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .lock-input:focus { border-color: var(--green-light); background: white; box-shadow: 0 0 0 3px rgba(26,107,69,0.08); }
+  .lock-input.error { border-color: #c0392b; box-shadow: 0 0 0 3px rgba(192,57,43,0.1); animation: shake 0.35s ease; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+  .lock-btn {
+    width: 100%; padding: 12px; border-radius: 9px;
+    background: var(--green); color: white; border: none;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .lock-btn:hover { background: var(--green-light); }
+  .lock-error { font-size: 0.8rem; color: #c0392b; margin-top: 0.6rem; display: none; }
+  #appContent { display: none; }
 </style>
 </head>
 <body>
+
+<!-- PASSWORD SCREEN -->
+<div id="lockScreen">
+  <div class="lock-card">
+    <div class="lock-icon">🌿</div>
+    <h2>Anamnese Nutricional</h2>
+    <p>Clínica Escola — acesso restrito</p>
+    <input class="lock-input" type="password" id="lockInput" placeholder="••••••••••"
+      onkeydown="if(event.key==='Enter') checkPassword()">
+    <button class="lock-btn" onclick="checkPassword()">Entrar</button>
+    <div class="lock-error" id="lockError">Senha incorreta. Tente novamente.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appContent">
 
 <!-- TOP BAR -->
 <div class="topbar">
@@ -814,6 +866,33 @@ function copyPrompt() {
 
 // === INIT ===
 loadForm();
+</script>
+
+</div><!-- end #appContent -->
+
+<script>
+// === PASSWORD ===
+const PASS = 'jasmine@37';
+function checkPassword() {
+  const input = document.getElementById('lockInput');
+  const error = document.getElementById('lockError');
+  if (input.value === PASS) {
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('appContent').style.display = 'block';
+    sessionStorage.setItem('auth', '1');
+  } else {
+    input.classList.remove('error');
+    void input.offsetWidth;
+    input.classList.add('error');
+    error.style.display = 'block';
+    input.value = '';
+    setTimeout(() => input.classList.remove('error'), 400);
+  }
+}
+if (sessionStorage.getItem('auth') === '1') {
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('appContent').style.display = 'block';
+}
 </script>
 </body>
 </html>
