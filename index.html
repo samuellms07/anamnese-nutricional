@@ -185,16 +185,18 @@
   .footer-info { font-size: 0.8rem; color: var(--ink-light); }
   .footer-info strong { color: var(--ink); }
   .btn-analyze {
-    background: var(--green); color: white;
-    border: none; border-radius: 10px;
-    padding: 13px 28px; font-size: 0.92rem; font-weight: 600;
+    color: white; border: none; border-radius: 10px;
+    padding: 13px 22px; font-size: 0.88rem; font-weight: 600;
     font-family: 'DM Sans', sans-serif; cursor: pointer;
     display: flex; align-items: center; gap: 8px;
     transition: background 0.2s, transform 0.15s;
-    box-shadow: 0 4px 14px rgba(26,107,69,0.3);
   }
-  .btn-analyze:hover { background: var(--green-light); transform: translateY(-1px); }
   .btn-analyze:active { transform: translateY(0); }
+  .btn-claude { background: var(--green); box-shadow: 0 4px 14px rgba(26,107,69,0.3); }
+  .btn-claude:hover { background: var(--green-light); transform: translateY(-1px); }
+  .btn-gpt { background: #19c37d; box-shadow: 0 4px 14px rgba(25,195,125,0.3); }
+  .btn-gpt:hover { background: #15a86c; transform: translateY(-1px); }
+  .btns-group { display: flex; gap: 10px; flex-wrap: wrap; }
 
   /* MODAL */
   .modal-overlay {
@@ -534,9 +536,10 @@
   <div class="footer-info">
     <span id="footerMsg">Preencha a anamnese e clique em analisar</span>
   </div>
-  <button class="btn-analyze" onclick="openModal()">
-    ✦ Analisar com Claude
-  </button>
+  <div class="btns-group">
+    <button class="btn-analyze btn-claude" onclick="openModal('claude')">✦ Analisar com Claude</button>
+    <button class="btn-analyze btn-gpt" onclick="openModal('gpt')">✦ Analisar com ChatGPT</button>
+  </div>
 </div>
 
 <!-- MODAL -->
@@ -544,8 +547,8 @@
   <div class="modal">
     <div class="modal-header">
       <div>
-        <h2>Pronto para o Claude</h2>
-        <p>Copie o texto abaixo e cole no chat do Claude</p>
+        <h2 id="modalTitle">Pronto para análise</h2>
+        <p id="modalSubtitle">Copie o texto abaixo e cole no chat</p>
       </div>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
@@ -554,10 +557,10 @@
     </div>
     <div class="modal-footer" style="flex-direction:column">
       <div style="display:flex;gap:10px">
-        <button class="btn-copy" onclick="copyPrompt()">📋 Copiar texto</button>
-        <a class="btn-open" href="https://claude.ai" target="_blank">Abrir Claude ↗</a>
+        <button class="btn-copy" id="btnCopy" onclick="copyPrompt()">📋 Copiar texto</button>
+        <a class="btn-open" id="btnOpen" href="#" target="_blank">Abrir IA ↗</a>
       </div>
-      <div class="copied-msg" id="copiedMsg">✓ Copiado! Agora cole no chat do Claude.</div>
+      <div class="copied-msg" id="copiedMsg" id="copiedMsg">✓ Copiado! Agora cole no chat.</div>
     </div>
   </div>
 </div>
@@ -787,11 +790,18 @@ ${recordatorio || '  — Não informado'}
 }
 
 // === MODAL ===
-function openModal() {
+function openModal(ai) {
   const prompt = buildPrompt();
   document.getElementById('promptBox').textContent = prompt;
   document.getElementById('modalOverlay').classList.add('open');
   document.getElementById('copiedMsg').style.display = 'none';
+  const isClaude = ai === 'claude';
+  document.getElementById('modalTitle').textContent = isClaude ? 'Pronto para o Claude' : 'Pronto para o ChatGPT';
+  document.getElementById('modalSubtitle').textContent = isClaude ? 'Copie o texto e cole no chat do Claude' : 'Copie o texto e cole no chat do ChatGPT';
+  document.getElementById('btnOpen').href = isClaude ? 'https://claude.ai' : 'https://chatgpt.com';
+  document.getElementById('btnOpen').textContent = isClaude ? 'Abrir Claude ↗' : 'Abrir ChatGPT ↗';
+  const btnCopy = document.getElementById('btnCopy');
+  btnCopy.style.background = isClaude ? 'var(--green)' : '#19c37d';
 }
 function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 function closeModalOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
