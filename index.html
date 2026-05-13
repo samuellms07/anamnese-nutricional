@@ -430,7 +430,94 @@
         </div>
       </div>
     </div>
+    <!-- 4. CÁLCULO TMB -->
+<div class="divider"></div>
 
+<div class="sublabel">Cálculo de Taxa Metabólica Basal (TMB)</div>
+
+<div class="field-grid">
+
+  <!-- Fórmula -->
+  <div class="field">
+    <label>Fórmula utilizada</label>
+    <select name="formula_tmb" id="formulaTMB" onchange="toggleLeanMassField(); calcTMB();">
+      <option value="">Selecionar</option>
+
+      <option value="mifflin">
+        Mifflin-St Jeor
+      </option>
+
+      <option value="harris">
+        Harris-Benedict
+      </option>
+
+      <option value="cunningham">
+        Cunningham
+      </option>
+
+      <option value="tinsley">
+        Tinsley
+      </option>
+    </select>
+  </div>
+
+  <!-- BF -->
+  <div class="field">
+    <label>Percentual de gordura (%)</label>
+    <input
+      type="number"
+      step="0.1"
+      name="bf"
+      id="bfField"
+      placeholder="Ex: 15"
+      oninput="calcLeanMass(); calcTMB();"
+    >
+  </div>
+
+  <!-- Massa magra -->
+  <div class="field" id="leanMassWrap" style="display:none;">
+    <label>Massa magra (kg)</label>
+    <input
+      type="number"
+      step="0.1"
+      name="massa_magra"
+      id="leanMassField"
+      placeholder="Calculada automaticamente"
+      readonly
+      style="background:#f0f0f0;color:#555"
+    >
+  </div>
+
+  <!-- TMB -->
+  <div class="field">
+    <label>TMB calculada</label>
+    <input
+      type="text"
+      name="tmb"
+      id="tmbField"
+      readonly
+      placeholder="—"
+      style="background:#f0f0f0;color:#555"
+    >
+  </div>
+
+</div>
+
+<!-- CARD INFORMATIVO -->
+<div
+  id="formulaInfo"
+  style="
+    margin-top:1rem;
+    padding:1rem;
+    border-radius:10px;
+    background:var(--green-pale);
+    border:1px solid var(--green-mid);
+    font-size:0.82rem;
+    line-height:1.6;
+    color:var(--ink-mid);
+    display:none;
+  "
+></div>
     <!-- 5. HÁBITOS ALIMENTARES -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
