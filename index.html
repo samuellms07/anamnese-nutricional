@@ -369,21 +369,36 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">⚖️</div>
-        <div class="section-title"><h3>3. Histórico de peso e evolução corporal</h3><small>Evolução do peso</small></div>
+        <div class="section-title"><h3>3. Histórico de peso</h3><small>Mudanças recentes relevantes</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
         <div class="field-grid">
-          <div class="field"><label>Peso há 3 meses (kg)</label><input type="number" step="0.1" name="peso_3_meses"></div>
-          <div class="field"><label>Peso há 6 meses (kg)</label><input type="number" step="0.1" name="peso_6_meses"></div>
-          <div class="field"><label>Peso há 1 ano (kg)</label><input type="number" step="0.1" name="peso_1_ano"></div>
-          <div class="field"><label>Maior peso na vida adulta (kg)</label><input type="number" step="0.1" name="maior_peso"></div>
-          <div class="field"><label>Menor peso na vida adulta (kg)</label><input type="number" step="0.1" name="menor_peso"></div>
-          <div class="field"><label>Variação recente foi intencional?</label>
-            <select name="variacao_intencional"><option value="">Selecionar</option><option>Sim</option><option>Não</option><option>Parcialmente</option><option>Não sabe informar</option></select>
+          <div class="field">
+            <label>Como seu peso mudou nos últimos 6 meses?</label>
+            <select name="evolucao_peso">
+              <option value="">Selecione (opcional)</option>
+              <option>Permaneceu estável</option>
+              <option>Ganhei peso</option>
+              <option>Perdi peso</option>
+              <option>Ganhei e perdi (oscilou)</option>
+              <option>Não sei informar</option>
+            </select>
           </div>
-          <div class="field field-full"><label>Quando e por que começou a ganhar ou perder peso?</label><textarea name="historico_variacao_peso" placeholder="Período, contexto, mudanças na rotina, saúde ou medicação..."></textarea></div>
-          <div class="field field-full"><label>O que dificultou manter resultados anteriores?</label><textarea name="dificuldade_manutencao_peso" placeholder="Fome, rotina, custo, ansiedade, falta de tempo, restrições excessivas etc."></textarea></div>
+          <div class="field">
+            <label>A mudança foi intencional?</label>
+            <select name="variacao_intencional">
+              <option value="">Selecione (opcional)</option>
+              <option>Sim</option>
+              <option>Não</option>
+              <option>Parcialmente</option>
+              <option>Não se aplica</option>
+            </select>
+          </div>
+          <div class="field field-full">
+            <label>Se houve mudança, informe aproximadamente quanto e o motivo</label>
+            <textarea name="historico_variacao_peso" placeholder="Ex.: perdi 5 kg em 3 meses após mudar a alimentação; ganhei peso após iniciar uma medicação."></textarea>
+          </div>
         </div>
       </div>
     </div>
@@ -444,7 +459,6 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
           <div class="field"><label>Circ. do quadril (cm)</label><input type="number" name="cq" step="0.1"></div>
           <div class="field"><label>Pressão arterial</label><input type="text" name="pa" placeholder="Ex: 120/80 mmHg"></div>
           <div class="field"><label>Circunferência do pescoço (cm)</label><input type="number" step="0.1" name="circ_pescoco"></div>
-          <div class="field"><label>Circunferência da cintura/abdômen — medida alternativa (cm)</label><input type="number" step="0.1" name="circ_cintura"></div>
           <div class="field"><label>Percentual de gordura (%)</label><input type="number" step="0.1" name="percentual_gordura"></div>
           <div class="field"><label>Massa magra (kg)</label><input type="number" step="0.1" name="massa_magra_avaliacao"></div>
           <div class="field"><label>Data da avaliação antropométrica</label><input type="date" name="data_antropometria"></div>
