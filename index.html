@@ -134,6 +134,9 @@
   }
   .field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
   .field select { cursor: pointer; }
+  .field-help { font-size: 0.72rem; color: var(--ink-light); line-height: 1.45; }
+  .subsection-title { font-size: 0.82rem; font-weight: 600; color: var(--green); margin: 1rem 0 0.65rem; }
+  .field-full { grid-column: 1 / -1; }
 
   /* CHECKBOX GROUPS */
   .check-group { margin-top: 4px; }
@@ -248,61 +251,9 @@
   }
   .btn-open:hover { background: var(--sand-dark); }
   .copied-msg { font-size: 0.78rem; color: var(--green); text-align: center; margin-top: 8px; display: none; }
-
-  /* PASSWORD SCREEN */
-  #lockScreen {
-    position: fixed; inset: 0; background: var(--sand);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 999; padding: 1rem;
-  }
-  .lock-card {
-    background: var(--white); border-radius: 16px;
-    border: 1px solid var(--sand-dark);
-    padding: 2.5rem 2rem; width: 100%; max-width: 360px;
-    text-align: center; box-shadow: 0 8px 40px rgba(0,0,0,0.08);
-  }
-  .lock-icon { font-size: 2.2rem; margin-bottom: 1rem; }
-  .lock-card h2 { font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.3rem; }
-  .lock-card p { font-size: 0.85rem; color: var(--ink-light); margin-bottom: 1.5rem; }
-  .lock-input {
-    width: 100%; padding: 11px 14px; border-radius: 9px;
-    border: 1.5px solid var(--sand-dark); background: var(--sand);
-    font-family: 'DM Sans', sans-serif; font-size: 1rem;
-    color: var(--ink); outline: none; text-align: center;
-    letter-spacing: 0.1em; margin-bottom: 0.75rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .lock-input:focus { border-color: var(--green-light); background: white; box-shadow: 0 0 0 3px rgba(26,107,69,0.08); }
-  .lock-input.error { border-color: #c0392b; box-shadow: 0 0 0 3px rgba(192,57,43,0.1); animation: shake 0.35s ease; }
-  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
-  .lock-btn {
-    width: 100%; padding: 12px; border-radius: 9px;
-    background: var(--green); color: white; border: none;
-    font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600;
-    cursor: pointer; transition: background 0.2s;
-  }
-  .lock-btn:hover { background: var(--green-light); }
-  .lock-error { font-size: 0.8rem; color: #c0392b; margin-top: 0.6rem; display: none; }
-  #appContent { display: none; }
 </style>
 </head>
 <body>
-
-<!-- PASSWORD SCREEN -->
-<div id="lockScreen">
-  <div class="lock-card">
-    <div class="lock-icon">🌿</div>
-    <h2>Anamnese Nutricional</h2>
-    <p>Clínica Escola — acesso restrito</p>
-    <input class="lock-input" type="password" id="lockInput" placeholder="••••••••••"
-      onkeydown="if(event.key==='Enter') checkPassword()">
-    <button class="lock-btn" onclick="checkPassword()">Entrar</button>
-    <div class="lock-error" id="lockError">Senha incorreta. Tente novamente.</div>
-  </div>
-</div>
-
-<!-- APP -->
-<div id="appContent">
 
 <!-- TOP BAR -->
 <div class="topbar">
@@ -376,11 +327,34 @@
       </div>
     </div>
 
-    <!-- 3. HISTÓRICO DE SAÚDE -->
+    <!-- 3. HISTÓRICO DE PESO -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon">⚖️</div>
+        <div class="section-title"><h3>3. Histórico de peso e evolução corporal</h3><small>Variações recentes e tentativas anteriores</small></div>
+        <span class="section-chevron">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="field-grid">
+          <div class="field"><label>Peso há 3 meses (kg)</label><input type="number" step="0.1" name="peso_3_meses"></div>
+          <div class="field"><label>Peso há 6 meses (kg)</label><input type="number" step="0.1" name="peso_6_meses"></div>
+          <div class="field"><label>Peso há 1 ano (kg)</label><input type="number" step="0.1" name="peso_1_ano"></div>
+          <div class="field"><label>Maior peso na vida adulta (kg)</label><input type="number" step="0.1" name="maior_peso"></div>
+          <div class="field"><label>Menor peso na vida adulta (kg)</label><input type="number" step="0.1" name="menor_peso"></div>
+          <div class="field"><label>Variação recente foi intencional?</label>
+            <select name="variacao_intencional"><option value="">Selecionar</option><option>Sim</option><option>Não</option><option>Parcialmente</option><option>Não sabe informar</option></select>
+          </div>
+          <div class="field field-full"><label>Quando e por que começou a ganhar ou perder peso?</label><textarea name="historico_variacao_peso" placeholder="Período, contexto, mudanças na rotina, saúde ou medicação..."></textarea></div>
+          <div class="field field-full"><label>O que dificultou manter resultados anteriores?</label><textarea name="dificuldade_manutencao_peso" placeholder="Fome, rotina, custo, ansiedade, falta de tempo, restrições excessivas etc."></textarea></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. HISTÓRICO DE SAÚDE -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🏥</div>
-        <div class="section-title"><h3>3. Histórico de saúde</h3><small>Doenças, medicamentos e alergias</small></div>
+        <div class="section-title"><h3>4. Histórico de saúde</h3><small>Doenças, medicamentos e alergias</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -406,15 +380,19 @@
           <div class="field field-full"><label>Medicamentos em uso (nome, dose e frequência)</label><textarea name="medicamentos" placeholder="Liste cada medicamento separadamente"></textarea></div>
           <div class="field field-full"><label>Suplementos em uso</label><textarea name="suplementos" placeholder="Ex: whey protein 30g/dia, vitamina D 2000UI/dia..."></textarea></div>
           <div class="field field-full"><label>Alergias e intolerâncias alimentares</label><textarea name="alergias" placeholder="Ex: lactose, glúten, frutos do mar..."></textarea></div>
+          <div class="field"><label>Doenças estão controladas?</label><select name="doencas_controladas"><option value="">Selecionar</option><option>Sim</option><option>Não</option><option>Parcialmente</option><option>Não se aplica / não sabe</option></select></div>
+          <div class="field"><label>Faz acompanhamento médico?</label><select name="acompanhamento_medico"><option value="">Selecionar</option><option>Sim</option><option>Não</option></select></div>
+          <div class="field field-full"><label>Exames laboratoriais recentes (data e resultados)</label><textarea name="exames_laboratoriais" placeholder="Registre apenas exames disponíveis e relevantes, com data e valores: glicemia, HbA1c, perfil lipídico, função renal/hepática, hemograma, TSH etc."></textarea></div>
+          <div class="field field-full"><label>Diagnósticos, orientações ou restrições informadas por profissionais de saúde</label><textarea name="orientacoes_saude" placeholder="Descreva orientações recebidas e eventuais restrições clínicas."></textarea></div>
         </div>
       </div>
     </div>
 
-    <!-- 4. ANTROPOMETRIA -->
+    <!-- 5. ANTROPOMETRIA -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">📏</div>
-        <div class="section-title"><h3>4. Dados antropométricos</h3><small>Peso, altura e medidas</small></div>
+        <div class="section-title"><h3>5. Dados antropométricos</h3><small>Peso, altura e medidas</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -427,14 +405,21 @@
           <div class="field"><label>Circ. abdominal (cm)</label><input type="number" name="ca" step="0.1"></div>
           <div class="field"><label>Circ. do quadril (cm)</label><input type="number" name="cq" step="0.1"></div>
           <div class="field"><label>Pressão arterial</label><input type="text" name="pa" placeholder="Ex: 120/80 mmHg"></div>
+          <div class="field"><label>Circunferência do pescoço (cm)</label><input type="number" step="0.1" name="circ_pescoco"></div>
+          <div class="field"><label>Circunferência da cintura (cm)</label><input type="number" step="0.1" name="circ_cintura"></div>
+          <div class="field"><label>Percentual de gordura (%)</label><input type="number" step="0.1" name="percentual_gordura"></div>
+          <div class="field"><label>Massa magra (kg)</label><input type="number" step="0.1" name="massa_magra_avaliacao"></div>
+          <div class="field"><label>Data da avaliação antropométrica</label><input type="date" name="data_antropometria"></div>
+          <div class="field field-full"><label>Método de avaliação / observações</label><textarea name="metodo_antropometria" placeholder="Ex.: bioimpedância, dobras cutâneas, fita métrica; condições da avaliação."></textarea></div>
         </div>
       </div>
     </div>
-       <!-- 5. HÁBITOS ALIMENTARES -->
+
+    <!-- 6. HÁBITOS ALIMENTARES -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🥗</div>
-        <div class="section-title"><h3>5. Hábitos alimentares</h3><small>Rotina e recordatório 24h</small></div>
+        <div class="section-title"><h3>6. Hábitos alimentares</h3><small>Rotina e recordatório 24h</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -453,17 +438,22 @@
         <div class="divider"></div>
         <div class="check-group-label" style="margin-bottom:10px">Recordatório alimentar 24h</div>
         <div class="refeicao-grid">
-          <div class="refeicao-row"><span class="refeicao-label">Café da manhã</span><input class="refeicao-input" name="ref_cafe" type="text" placeholder="Descreva o que comeu"></div>
-          <div class="refeicao-row"><span class="refeicao-label">Lanche manhã</span><input class="refeicao-input" name="ref_lanche_m" type="text" placeholder=""></div>
-          <div class="refeicao-row"><span class="refeicao-label">Almoço</span><input class="refeicao-input" name="ref_almoco" type="text" placeholder="Descreva o que comeu"></div>
-          <div class="refeicao-row"><span class="refeicao-label">Lanche tarde</span><input class="refeicao-input" name="ref_lanche_t" type="text" placeholder=""></div>
-          <div class="refeicao-row"><span class="refeicao-label">Jantar</span><input class="refeicao-input" name="ref_jantar" type="text" placeholder="Descreva o que comeu"></div>
-          <div class="refeicao-row"><span class="refeicao-label">Ceia</span><input class="refeicao-input" name="ref_ceia" type="text" placeholder=""></div>
+          <p class="field-help">Em cada refeição, registre horário, alimentos e bebidas, quantidades aproximadas/medidas caseiras, modo de preparo, acompanhamentos, molhos, açúcar e repetição. Ex.: 07h30 — 1 pão francês com 1 ovo mexido, 1 xícara (200 ml) de café com leite e 1 colher de chá de açúcar.</p>
+          <div class="refeicao-row"><span class="refeicao-label">Café da manhã</span><input class="refeicao-input" name="ref_cafe" type="text" placeholder="Horário; alimentos; quantidades; preparo; bebidas"></div>
+          <div class="refeicao-row"><span class="refeicao-label">Lanche manhã</span><input class="refeicao-input" name="ref_lanche_m" type="text" placeholder="Horário; alimentos; quantidades; bebidas"></div>
+          <div class="refeicao-row"><span class="refeicao-label">Almoço</span><input class="refeicao-input" name="ref_almoco" type="text" placeholder="Horário; alimentos; porções; preparo; bebidas"></div>
+          <div class="refeicao-row"><span class="refeicao-label">Lanche tarde</span><input class="refeicao-input" name="ref_lanche_t" type="text" placeholder="Horário; alimentos; quantidades; bebidas"></div>
+          <div class="refeicao-row"><span class="refeicao-label">Jantar</span><input class="refeicao-input" name="ref_jantar" type="text" placeholder="Horário; alimentos; porções; preparo; bebidas"></div>
+          <div class="refeicao-row"><span class="refeicao-label">Ceia</span><input class="refeicao-input" name="ref_ceia" type="text" placeholder="Horário; alimentos; quantidades; bebidas"></div>
         </div>
         <div class="divider"></div>
         <div class="field-grid">
           <div class="field field-full"><label>Alimentos preferidos / consumidos com frequência</label><textarea name="alimentos_pref" placeholder="Liste os que aparecem mais na rotina"></textarea></div>
           <div class="field field-full"><label>Alimentos não tolerados / não apreciados</label><textarea name="alimentos_aversao" placeholder="Inclua aversões e motivos se conhecidos"></textarea></div>
+          <div class="field"><label>Alimentação muda nos finais de semana?</label><select name="mudanca_fim_semana"><option value="">Selecionar</option><option>Não</option><option>Sim, um pouco</option><option>Sim, bastante</option></select></div>
+          <div class="field"><label>Costuma beliscar entre refeições?</label><select name="belisca"><option value="">Selecionar</option><option>Nunca</option><option>Às vezes</option><option>Frequentemente</option></select></div>
+          <div class="field"><label>Frequência de refeições fora/delivery</label><select name="frequencia_delivery"><option value="">Selecionar</option><option>Raramente</option><option>1–2 vezes/semana</option><option>3–5 vezes/semana</option><option>Quase diariamente</option></select></div>
+          <div class="field field-full"><label>Beliscos, bebidas e extras habituais</label><textarea name="extras_alimentares" placeholder="Ex.: café adoçado, sucos, refrigerantes, biscoitos, petiscos, molhos, óleo, açúcar, bebidas alcoólicas etc."></textarea></div>
         </div>
         <div class="divider"></div>
         <div class="field-grid">
@@ -477,11 +467,31 @@
       </div>
     </div>
 
-    <!-- 6. COMPORTAMENTO ALIMENTAR -->
+    <!-- 7. CONDIÇÕES SOCIOECONÔMICAS E ACESSO AOS ALIMENTOS -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon">🛒</div>
+        <div class="section-title"><h3>7. Condições socioeconômicas e acesso aos alimentos</h3><small>Orçamento, compras e estrutura disponível</small></div>
+        <span class="section-chevron">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="field-grid">
+          <div class="field"><label>Orçamento aproximado para alimentação</label><select name="orcamento_alimentacao"><option value="">Selecionar</option><option>Limitado / precisa economizar</option><option>Baixo</option><option>Moderado</option><option>Flexível</option><option>Prefere não informar</option></select></div>
+          <div class="field"><label>Frequência de compras</label><select name="frequencia_compras"><option value="">Selecionar</option><option>Diariamente</option><option>Semanalmente</option><option>Quinzenalmente</option><option>Mensalmente</option><option>Variável</option></select></div>
+          <div class="field"><label>Onde costuma comprar alimentos?</label><select name="local_compras"><option value="">Selecionar</option><option>Supermercado</option><option>Atacado</option><option>Feira / mercado local</option><option>Mais de um local</option><option>Outro</option></select></div>
+          <div class="field"><label>Tem acesso a geladeira e freezer?</label><select name="geladeira_freezer"><option value="">Selecionar</option><option>Ambos</option><option>Apenas geladeira</option><option>Não</option></select></div>
+          <div class="field"><label>Tem fogão e utensílios para cozinhar?</label><select name="estrutura_cozinha"><option value="">Selecionar</option><option>Sim, estrutura completa</option><option>Parcialmente</option><option>Não</option></select></div>
+          <div class="field"><label>Consegue levar e armazenar marmita?</label><select name="leva_marmita"><option value="">Selecionar</option><option>Sim</option><option>Não</option><option>Às vezes</option><option>Não se aplica</option></select></div>
+          <div class="field field-full"><label>Limitações de acesso, custo ou disponibilidade</label><textarea name="limitacoes_alimentos" placeholder="Alimentos caros, distância de mercados, falta de tempo, estrutura para cozinhar, restrições familiares etc."></textarea></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. COMPORTAMENTO ALIMENTAR -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🧠</div>
-        <div class="section-title"><h3>6. Comportamento alimentar</h3><small>Relação emocional com a comida</small></div>
+        <div class="section-title"><h3>8. Comportamento alimentar</h3><small>Relação emocional com a comida</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -503,11 +513,11 @@
       </div>
     </div>
 
-    <!-- 7. ATIVIDADE FÍSICA E SONO -->
+    <!-- 9. ATIVIDADE FÍSICA E SONO -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🏃</div>
-        <div class="section-title"><h3>7. Atividade física e sono</h3><small>Gasto energético e recuperação</small></div>
+        <div class="section-title"><h3>9. Atividade física e sono</h3><small>Gasto energético e recuperação</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -531,15 +541,23 @@
           <div class="field"><label>Nível de estresse</label>
             <select name="estresse"><option value="">Selecionar</option><option>Baixo</option><option>Moderado</option><option>Alto</option></select>
           </div>
+          <div class="field"><label>Dias de treino por semana</label><input type="number" min="0" max="14" name="dias_treino_semana" placeholder="Ex.: 4"></div>
+          <div class="field"><label>Intensidade percebida do treino</label><select name="intensidade_treino"><option value="">Selecionar</option><option>Leve</option><option>Moderada</option><option>Intensa</option><option>Variável</option><option>Não se aplica</option></select></div>
+          <div class="field"><label>Rotina de trabalho</label><select name="rotina_trabalho"><option value="">Selecionar</option><option>Predominantemente sentado</option><option>Em pé na maior parte do tempo</option><option>Caminhando / ativo</option><option>Trabalho físico intenso</option><option>Variável</option></select></div>
+          <div class="field"><label>Horário habitual de acordar</label><input type="time" name="hora_acordar"></div>
+          <div class="field"><label>Horário habitual de dormir</label><input type="time" name="hora_dormir"></div>
+          <div class="field"><label>Tempo sentado por dia</label><select name="tempo_sentado"><option value="">Selecionar</option><option>Menos de 4 horas</option><option>4 a 6 horas</option><option>6 a 8 horas</option><option>Mais de 8 horas</option><option>Não sabe informar</option></select></div>
+          <div class="field field-full"><label>Limitações físicas, dores ou restrições para atividade</label><textarea name="limitacoes_atividade" placeholder="Descreva limitações que afetem a prática de atividade física."></textarea></div>
+          <div class="field field-full"><label>Rotina diária e horários em que consegue fazer refeições</label><textarea name="rotina_horarios" placeholder="Ex.: acorda às 6h, trabalha das 8h às 17h, almoça no trabalho, treina às 19h..."></textarea></div>
         </div>
       </div>
     </div>
 
-    <!-- 8. SINTOMAS GASTROINTESTINAIS -->
+    <!-- 10. SINTOMAS GASTROINTESTINAIS -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🩺</div>
-        <div class="section-title"><h3>8. Sintomas gastrointestinais</h3><small>Queixas digestivas frequentes</small></div>
+        <div class="section-title"><h3>10. Sintomas gastrointestinais</h3><small>Queixas digestivas frequentes</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -558,23 +576,51 @@
         <div class="divider"></div>
         <div class="field-grid">
           <div class="field"><label>Frequência de evacuações por semana</label><input type="number" name="evacuacoes" placeholder="Ex: 5"></div>
-          <div class="field field-full"><label>Observações adicionais</label><textarea name="obs_gi" placeholder="Descreva qualquer outro sintoma digestivo"></textarea></div>
+          <div class="field"><label>Consistência das fezes (Escala de Bristol)</label><select name="bristol"><option value="">Selecionar</option><option>Tipo 1 — bolinhas duras</option><option>Tipo 2 — formato de salsicha irregular</option><option>Tipo 3 — salsicha com rachaduras</option><option>Tipo 4 — lisa e macia</option><option>Tipo 5 — pedaços macios</option><option>Tipo 6 — pastosa</option><option>Tipo 7 — líquida</option><option>Não sabe informar</option></select></div>
+          <div class="field"><label>Há dor ou desconforto abdominal?</label><select name="dor_abdominal"><option value="">Selecionar</option><option>Não</option><option>Sim, ocasionalmente</option><option>Sim, frequentemente</option></select></div>
+          <div class="field"><label>Sensação de evacuação incompleta?</label><select name="evacuacao_incompleta"><option value="">Selecionar</option><option>Não</option><option>Às vezes</option><option>Frequentemente</option></select></div>
+          <div class="field field-full"><label>Alimentos ou situações que desencadeiam sintomas</label><textarea name="gatilhos_gi" placeholder="Alimento, quantidade, horário e quanto tempo depois os sintomas aparecem."></textarea></div>
+          <div class="field field-full"><label>Observações adicionais</label><textarea name="obs_gi" placeholder="Descreva intensidade, duração, frequência, evolução e outros sintomas digestivos."></textarea></div>
         </div>
       </div>
     </div>
 
-    <!-- 9. OBSERVAÇÕES -->
+    <!-- 11. PREFERÊNCIAS, EXPECTATIVAS E ADESÃO -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon">🎯</div>
+        <div class="section-title"><h3>11. Preferências, expectativas e adesão</h3><small>O que torna o plano possível de seguir</small></div>
+        <span class="section-chevron">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="field-grid">
+          <div class="field"><label>Formato de plano preferido</label><select name="formato_plano"><option value="">Selecionar</option><option>Flexível, com opções de substituição</option><option>Estruturado, com horários e quantidades</option><option>Combinação dos dois</option><option>Não sabe / deseja orientação</option></select></div>
+          <div class="field"><label>Disponibilidade para preparar refeições</label><select name="tempo_preparo"><option value="">Selecionar</option><option>Diariamente</option><option>Alguns dias na semana</option><option>Apenas preparo rápido</option><option>Quase nenhuma</option></select></div>
+          <div class="field"><label>Disposição para mudanças neste momento</label><select name="disposicao_mudanca"><option value="">Selecionar</option><option>Alta</option><option>Moderada</option><option>Baixa</option><option>Está avaliando</option></select></div>
+          <div class="field"><label>Prazo de objetivo inicial</label><select name="prazo_objetivo"><option value="">Selecionar</option><option>1 mês</option><option>3 meses</option><option>6 meses</option><option>Sem prazo definido</option></select></div>
+          <div class="field field-full"><label>Principais dificuldades para seguir um plano alimentar</label><textarea name="dificuldades_adesao" placeholder="Fome, ansiedade, rotina, custo, refeições em família, trabalho, eventos sociais etc."></textarea></div>
+          <div class="field field-full"><label>Primeira mudança que o paciente acredita conseguir implementar</label><textarea name="primeira_mudanca" placeholder="Registre uma meta pequena, específica e viável."></textarea></div>
+          <div class="field field-full"><label>Alimentos que gostaria de manter no plano</label><textarea name="alimentos_manter" placeholder="Preferências importantes para a adesão."></textarea></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. AVALIAÇÃO E CONDUTA -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">📝</div>
-        <div class="section-title"><h3>9. Observações do estagiário</h3><small>Impressão clínica e pontos de atenção</small></div>
+        <div class="section-title"><h3>12. Avaliação e conduta nutricional</h3><small>Impressão clínica e pontos de atenção</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
         <div class="field-grid">
           <div class="field"><label>Data da consulta</label><input type="date" name="data_consulta"></div>
           <div class="field"><label>Estagiário(a) responsável</label><input type="text" name="estagiario" placeholder="Seu nome"></div>
-          <div class="field field-full"><label>Impressão clínica e pontos de atenção para o plano alimentar</label><textarea name="obs_estagiario" style="min-height:120px" placeholder="Registre aqui suas observações, hipóteses e prioridades para a dieta..."></textarea></div>
+          <div class="field field-full"><label>Impressão clínica e pontos de atenção para o plano alimentar</label><textarea name="obs_estagiario" style="min-height:120px" placeholder="Registre observações, hipóteses, prioridades e dados que precisam de confirmação."></textarea></div>
+          <div class="field field-full"><label>Metas iniciais acordadas com o paciente</label><textarea name="metas_iniciais" placeholder="Metas específicas, mensuráveis, realistas e combinadas com o paciente."></textarea></div>
+          <div class="field"><label>Data sugerida para retorno</label><input type="date" name="data_retorno"></div>
+          <div class="field"><label>Indicadores para acompanhar</label><input type="text" name="indicadores_acompanhamento" placeholder="Ex.: peso, medidas, sintomas, adesão, desempenho..."></div>
+          <div class="field field-full"><label>Pendências / informações a confirmar</label><textarea name="pendencias_avaliacao" placeholder="Exames pendentes, dados antropométricos ausentes, encaminhamentos ou dúvidas clínicas."></textarea></div>
         </div>
       </div>
     </div>
@@ -795,6 +841,9 @@ ANAMNESE NUTRICIONAL
 - IMC: ${document.getElementById('imcField').value || '—'}
 - Peso habitual: ${v('peso_habitual')} kg
 - Peso desejado: ${v('peso_desejado')} kg
+- Peso há 3 meses: ${v('peso_3_meses')} kg
+- Peso há 6 meses: ${v('peso_6_meses')} kg
+- Peso há 1 ano: ${v('peso_1_ano')} kg
 - Circ. abdominal: ${v('ca')} cm
 - Circ. quadril: ${v('cq')} cm
 - Pressão arterial: ${v('pa')}
@@ -832,10 +881,87 @@ ${recordatorio || '  — Não informado'}
 - Evacuações/semana: ${v('evacuacoes')}
 - Observações GI: ${v('obs_gi')}
 
-## 9. OBSERVAÇÕES DO ESTAGIÁRIO
+## 3. HISTÓRICO DE PESO
+- Peso há 3 meses: ${v('peso_3_meses')} kg
+- Peso há 6 meses: ${v('peso_6_meses')} kg
+- Peso há 1 ano: ${v('peso_1_ano')} kg
+- Maior peso adulto: ${v('maior_peso')} kg
+- Menor peso adulto: ${v('menor_peso')} kg
+- Variação intencional: ${v('variacao_intencional')}
+- Histórico da variação: ${v('historico_variacao_peso')}
+- Dificuldade para manter resultados: ${v('dificuldade_manutencao_peso')}
+
+## 4. HISTÓRICO DE SAÚDE — COMPLEMENTO
+- Doenças controladas: ${v('doencas_controladas')}
+- Acompanhamento médico: ${v('acompanhamento_medico')}
+- Exames laboratoriais: ${v('exames_laboratoriais')}
+- Orientações/restrições de saúde: ${v('orientacoes_saude')}
+
+## 5. ANTROPOMETRIA — COMPLEMENTO
+- Circunferência do pescoço: ${v('circ_pescoco')} cm
+- Circunferência da cintura: ${v('circ_cintura')} cm
+- Percentual de gordura: ${v('percentual_gordura')}%
+- Massa magra registrada: ${v('massa_magra_avaliacao')} kg
+- Data da avaliação: ${v('data_antropometria')}
+- Método/observações: ${v('metodo_antropometria')}
+
+## 6. HÁBITOS ALIMENTARES — COMPLEMENTO
+- Alimentação muda nos finais de semana: ${v('mudanca_fim_semana')}
+- Belisca entre refeições: ${v('belisca')}
+- Frequência de delivery/refeições fora: ${v('frequencia_delivery')}
+- Beliscos, bebidas e extras: ${v('extras_alimentares')}
+
+## 7. CONDIÇÕES SOCIOECONÔMICAS E ACESSO
+- Orçamento: ${v('orcamento_alimentacao')}
+- Frequência de compras: ${v('frequencia_compras')}
+- Local de compras: ${v('local_compras')}
+- Geladeira/freezer: ${v('geladeira_freezer')}
+- Estrutura para cozinhar: ${v('estrutura_cozinha')}
+- Consegue levar marmita: ${v('leva_marmita')}
+- Limitações de acesso/custo: ${v('limitacoes_alimentos')}
+
+## 9. ATIVIDADE FÍSICA E ROTINA — COMPLEMENTO
+- Dias de treino/semana: ${v('dias_treino_semana')}
+- Intensidade percebida: ${v('intensidade_treino')}
+- Rotina de trabalho: ${v('rotina_trabalho')}
+- Horário de acordar: ${v('hora_acordar')}
+- Horário de dormir: ${v('hora_dormir')}
+- Tempo sentado: ${v('tempo_sentado')}
+- Limitações físicas: ${v('limitacoes_atividade')}
+- Rotina e horários das refeições: ${v('rotina_horarios')}
+
+## 10. SAÚDE GASTROINTESTINAL — COMPLEMENTO
+- Escala de Bristol: ${v('bristol')}
+- Dor/desconforto abdominal: ${v('dor_abdominal')}
+- Evacuação incompleta: ${v('evacuacao_incompleta')}
+- Gatilhos dos sintomas: ${v('gatilhos_gi')}
+
+## 11. PREFERÊNCIAS, EXPECTATIVAS E ADESÃO
+- Formato de plano preferido: ${v('formato_plano')}
+- Disponibilidade para preparo: ${v('tempo_preparo')}
+- Disposição para mudanças: ${v('disposicao_mudanca')}
+- Prazo do objetivo: ${v('prazo_objetivo')}
+- Dificuldades de adesão: ${v('dificuldades_adesao')}
+- Primeira mudança viável: ${v('primeira_mudanca')}
+- Alimentos que deseja manter: ${v('alimentos_manter')}
+
+## 12. AVALIAÇÃO E CONDUTA
 - Data da consulta: ${v('data_consulta')}
 - Estagiário: ${v('estagiario')}
 - Impressão clínica: ${v('obs_estagiario')}
+- Metas iniciais: ${v('metas_iniciais')}
+- Data sugerida para retorno: ${v('data_retorno')}
+- Indicadores de acompanhamento: ${v('indicadores_acompanhamento')}
+- Pendências: ${v('pendencias_avaliacao')}
+
+INSTRUÇÕES PARA A ANÁLISE:
+1. Separe dados informados, cálculos estimados e hipóteses; não invente dados ausentes.
+2. Aponte quais informações ainda precisam ser coletadas antes de fechar a prescrição.
+3. Não diagnostique doenças nem presuma deficiências nutricionais sem evidências; indique quando avaliação clínica ou exames podem ser necessários.
+4. Considere orçamento, acesso aos alimentos, preferências, rotina e capacidade de preparo.
+5. Apresente estimativa energética e de macronutrientes somente se houver dados suficientes, explicando equação e premissas.
+6. Sugira uma estrutura alimentar prática, com opções de substituição acessíveis e metas graduais.
+7. Sinalize situações que exigem avaliação ou acompanhamento de profissional habilitado.
 
 ========================================`;
 }
@@ -865,33 +991,6 @@ function copyPrompt() {
 
 // === INIT ===
 loadForm();
-</script>
-
-</div><!-- end #appContent -->
-
-<script>
-// === PASSWORD ===
-const PASS = 'jasmine@37';
-function checkPassword() {
-  const input = document.getElementById('lockInput');
-  const error = document.getElementById('lockError');
-  if (input.value === PASS) {
-    document.getElementById('lockScreen').style.display = 'none';
-    document.getElementById('appContent').style.display = 'block';
-    sessionStorage.setItem('auth', '1');
-  } else {
-    input.classList.remove('error');
-    void input.offsetWidth;
-    input.classList.add('error');
-    error.style.display = 'block';
-    input.value = '';
-    setTimeout(() => input.classList.remove('error'), 400);
-  }
-}
-if (sessionStorage.getItem('auth') === '1') {
-  document.getElementById('lockScreen').style.display = 'none';
-  document.getElementById('appContent').style.display = 'block';
-}
 </script>
 </body>
 </html>
