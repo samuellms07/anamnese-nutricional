@@ -286,6 +286,93 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
 .workspace-note{color:#68776f}
 
 
+
+/* Alinhamento dos campos do histórico de peso */
+#anamneseForm > .section:nth-child(3) .field-grid > .field:not(.field-full) > label {
+  display: flex;
+  align-items: flex-end;
+  min-height: 2.6em;
+}
+@media (max-width: 600px) {
+  #anamneseForm > .section:nth-child(3) .field-grid > .field:not(.field-full) > label {
+    min-height: 0;
+  }
+}
+
+
+/* Alinhamento dos três campos de hábitos alimentares com rótulos em duas linhas */
+#anamneseForm .field:has(select[name="mudanca_fim_semana"]) > label,
+#anamneseForm .field:has(select[name="belisca"]) > label,
+#anamneseForm .field:has(select[name="frequencia_delivery"]) > label {
+  display: flex;
+  align-items: flex-end;
+  min-height: 2.6em;
+}
+@media (max-width: 600px) {
+  #anamneseForm .field:has(select[name="mudanca_fim_semana"]) > label,
+  #anamneseForm .field:has(select[name="belisca"]) > label,
+  #anamneseForm .field:has(select[name="frequencia_delivery"]) > label {
+    min-height: 0;
+  }
+}
+
+
+/* Alinhamento uniforme dos campos socioeconômicos */
+#anamneseForm .field:has([name="orcamento_alimentacao"]) > label,
+#anamneseForm .field:has([name="frequencia_compras"]) > label,
+#anamneseForm .field:has([name="local_compras"]) > label,
+#anamneseForm .field:has([name="acesso_geladeira"]) > label,
+#anamneseForm .field:has([name="acesso_cozinha"]) > label,
+#anamneseForm .field:has([name="leva_marmita"]) > label {
+  display: flex;
+  align-items: flex-end;
+  min-height: 2.6em;
+}
+@media (max-width: 600px) {
+  #anamneseForm .field:has([name="orcamento_alimentacao"]) > label,
+  #anamneseForm .field:has([name="frequencia_compras"]) > label,
+  #anamneseForm .field:has([name="local_compras"]) > label,
+  #anamneseForm .field:has([name="acesso_geladeira"]) > label,
+  #anamneseForm .field:has([name="acesso_cozinha"]) > label,
+  #anamneseForm .field:has([name="leva_marmita"]) > label {
+    min-height: 0;
+  }
+}
+
+
+/* Alinhamento dos campos de frequência intestinal e desconforto abdominal */
+#anamneseForm .field:has([name="evacuacoes"]) > label,
+#anamneseForm .field:has([name="bristol"]) > label,
+#anamneseForm .field:has([name="dor_abdominal"]) > label {
+  display: flex;
+  align-items: flex-end;
+  min-height: 2.6em;
+}
+@media (max-width: 600px) {
+  #anamneseForm .field:has([name="evacuacoes"]) > label,
+  #anamneseForm .field:has([name="bristol"]) > label,
+  #anamneseForm .field:has([name="dor_abdominal"]) > label {
+    min-height: 0;
+  }
+}
+
+
+/* Alinhamento dos três primeiros campos da seção Preferências e adesão */
+#anamneseForm .field:has([name="formato_plano"]) > label,
+#anamneseForm .field:has([name="tempo_preparo"]) > label,
+#anamneseForm .field:has([name="disposicao_mudanca"]) > label {
+  display: flex;
+  align-items: flex-end;
+  min-height: 2.6em;
+}
+@media (max-width: 600px) {
+  #anamneseForm .field:has([name="formato_plano"]) > label,
+  #anamneseForm .field:has([name="tempo_preparo"]) > label,
+  #anamneseForm .field:has([name="disposicao_mudanca"]) > label {
+    min-height: 0;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -319,12 +406,12 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
 
     <!-- 1. DADOS PESSOAIS -->
     <div class="section">
-      <div class="section-header open" onclick="toggleSection(this)">
+      <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">👤</div>
         <div class="section-title"><h3>1. Dados pessoais</h3><small>Identificação e contato</small></div>
         <span class="section-chevron">▼</span>
       </div>
-      <div class="section-body open">
+      <div class="section-body">
         <div class="field-grid">
           <div class="field field-full"><label>Nome completo</label><input type="text" name="nome" placeholder="Nome completo" autocomplete="name" required></div>
           <div class="field field-full"><label>Celular com DDD</label><input type="tel" name="celular" placeholder="(00) 00000-0000" inputmode="tel" autocomplete="tel" required></div>
@@ -441,33 +528,7 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
       </div>
     </div>
 
-    <!-- 5. ANTROPOMETRIA -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div class="section-icon">📏</div>
-        <div class="section-title"><h3>5. Dados antropométricos</h3><small>Medidas disponíveis</small></div>
-        <span class="section-chevron">▼</span>
-      </div>
-      <div class="section-body">
-        <div class="field-grid">
-          <div class="field"><label>Peso atual (kg)</label><input type="number" name="peso_atual" step="0.1" placeholder="Ex: 70,5" oninput="calcIMC()"></div>
-          <div class="field"><label>Altura (cm)</label><input type="number" name="altura" placeholder="Ex: 168" oninput="calcIMC()"></div>
-          <div class="field"><label>IMC calculado</label><input type="text" name="imc" id="imcField" readonly placeholder="—" style="background:#f0f0f0;color:#555"></div>
-          <div class="field"><label>Peso habitual (kg)</label><input type="number" name="peso_habitual" step="0.1" placeholder="Antes de qualquer mudança"></div>
-          <div class="field"><label>Peso desejado (kg)</label><input type="number" name="peso_desejado" step="0.1" placeholder="Meta do paciente"></div>
-          <div class="field"><label>Circunferência da cintura/abdômen (cm)</label><input type="number" name="ca" step="0.1"></div>
-          <div class="field"><label>Circ. do quadril (cm)</label><input type="number" name="cq" step="0.1"></div>
-          <div class="field"><label>Pressão arterial</label><input type="text" name="pa" placeholder="Ex: 120/80 mmHg"></div>
-          <div class="field"><label>Circunferência do pescoço (cm)</label><input type="number" step="0.1" name="circ_pescoco"></div>
-          <div class="field"><label>Percentual de gordura (%)</label><input type="number" step="0.1" name="percentual_gordura"></div>
-          <div class="field"><label>Massa magra (kg)</label><input type="number" step="0.1" name="massa_magra_avaliacao"></div>
-          <div class="field"><label>Data da avaliação antropométrica</label><input type="date" name="data_antropometria"></div>
-          <div class="field field-full"><label>Método de avaliação / observações</label><textarea name="metodo_antropometria" placeholder="Ex.: bioimpedância, dobras cutâneas, fita métrica; condições da avaliação."></textarea></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 6. HÁBITOS ALIMENTARES -->
+    <!-- 5. HÁBITOS ALIMENTARES -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🥗</div>
@@ -519,7 +580,7 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
       </div>
     </div>
 
-    <!-- 7. CONDIÇÕES SOCIOECONÔMICAS E ACESSO AOS ALIMENTOS -->
+    <!-- 6. CONDIÇÕES SOCIOECONÔMICAS E ACESSO AOS ALIMENTOS -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🛒</div>
@@ -539,7 +600,7 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
       </div>
     </div>
 
-    <!-- 8. COMPORTAMENTO ALIMENTAR -->
+    <!-- 7. COMPORTAMENTO ALIMENTAR -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🧠</div>
@@ -565,7 +626,7 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
       </div>
     </div>
 
-    <!-- 9. ATIVIDADE FÍSICA E SONO -->
+    <!-- 8. ATIVIDADE FÍSICA E SONO -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🏃</div>
@@ -605,7 +666,7 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
       </div>
     </div>
 
-    <!-- 10. SINTOMAS GASTROINTESTINAIS -->
+    <!-- 9. SINTOMAS GASTROINTESTINAIS -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🩺</div>
@@ -637,7 +698,7 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
       </div>
     </div>
 
-    <!-- 11. PREFERÊNCIAS, EXPECTATIVAS E ADESÃO -->
+    <!-- 10. PREFERÊNCIAS, EXPECTATIVAS E ADESÃO -->
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🎯</div>
@@ -657,25 +718,7 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
       </div>
     </div>
 
-    <!-- 12. AVALIAÇÃO E CONDUTA -->
-    <div class="section">
-      <div class="section-header" onclick="toggleSection(this)">
-        <div class="section-icon">📝</div>
-        <div class="section-title"><h3>12. Avaliação e conduta nutricional</h3><small>Uso profissional — avaliação e conduta</small></div>
-        <span class="section-chevron">▼</span>
-      </div>
-      <div class="section-body">
-        <div class="field-grid">
-          <div class="field"><label>Data da consulta</label><input type="date" name="data_consulta"></div>
-          <div class="field"><label>Estagiário(a) responsável</label><input type="text" name="estagiario" placeholder="Seu nome"></div>
-          <div class="field field-full"><label>Impressão clínica e pontos de atenção para o plano alimentar</label><textarea name="obs_estagiario" style="min-height:120px" placeholder="Registre observações, hipóteses, prioridades e dados que precisam de confirmação."></textarea></div>
-          <div class="field field-full"><label>Metas iniciais acordadas com o paciente</label><textarea name="metas_iniciais" placeholder="Metas específicas, mensuráveis, realistas e combinadas com o paciente."></textarea></div>
-          <div class="field"><label>Data sugerida para retorno</label><input type="date" name="data_retorno"></div>
-          <div class="field"><label>Indicadores para acompanhar</label><input type="text" name="indicadores_acompanhamento" placeholder="Ex.: peso, medidas, sintomas, adesão, desempenho..."></div>
-          <div class="field field-full"><label>Pendências / informações a confirmar</label><textarea name="pendencias_avaliacao" placeholder="Exames pendentes, dados antropométricos ausentes, encaminhamentos ou dúvidas clínicas."></textarea></div>
-        </div>
-      </div>
-    </div>
+    
 
   </form>
 </div>
@@ -730,25 +773,6 @@ document.querySelectorAll('.check-pill input[type=checkbox]').forEach(cb => {
   });
 });
 
-// === IMC ===
-function calcIMC() {
-  const peso = parseFloat(document.querySelector('[name=peso_atual]').value);
-  const alt = parseFloat(document.querySelector('[name=altura]').value);
-  const field = document.getElementById('imcField');
-  if (peso > 0 && alt > 0) {
-    const imc = peso / ((alt/100) ** 2);
-    let classi = '';
-    if (imc < 18.5) classi = 'Abaixo do peso';
-    else if (imc < 25) classi = 'Eutrófico';
-    else if (imc < 30) classi = 'Sobrepeso';
-    else if (imc < 35) classi = 'Obesidade grau I';
-    else if (imc < 40) classi = 'Obesidade grau II';
-    else classi = 'Obesidade grau III';
-    field.value = imc.toFixed(1) + ' — ' + classi;
-  } else {
-    field.value = '';
-  }
-}
 
 // === SAVE ===
 let saveTimeout;
@@ -789,7 +813,6 @@ function loadForm() {
       el.value = data[el.name];
     }
   });
-  calcIMC();
   updateProgress();
 }
 
@@ -799,7 +822,6 @@ function clearForm() {
   localStorage.removeItem('anamnese_v1');
   document.getElementById('anamneseForm').reset();
   document.querySelectorAll('.check-pill').forEach(p => p.classList.remove('checked'));
-  document.getElementById('imcField').value = '';
   updateProgress();
 }
 
@@ -887,19 +909,6 @@ ANAMNESE NUTRICIONAL
 - Suplementos: ${v('suplementos')}
 - Alergias / intolerâncias: ${v('alergias')}
 
-## 4. ANTROPOMETRIA
-- Peso atual: ${v('peso_atual')} kg
-- Altura: ${v('altura')} cm
-- IMC: ${document.getElementById('imcField').value || '—'}
-- Peso habitual: ${v('peso_habitual')} kg
-- Peso desejado: ${v('peso_desejado')} kg
-- Peso há 3 meses: ${v('peso_3_meses')} kg
-- Peso há 6 meses: ${v('peso_6_meses')} kg
-- Peso há 1 ano: ${v('peso_1_ano')} kg
-- Circ. abdominal: ${v('ca')} cm
-- Circ. quadril: ${v('cq')} cm
-- Pressão arterial: ${v('pa')}
-
 ## 5. HÁBITOS ALIMENTARES
 - Nº de refeições/dia: ${v('n_refeicoes')}
 - Ingestão de água: ${v('agua')} ml/dia
@@ -949,15 +958,7 @@ ${recordatorio || '  — Não informado'}
 - Exames laboratoriais: ${v('exames_laboratoriais')}
 - Orientações/restrições de saúde: ${v('orientacoes_saude')}
 
-## 5. ANTROPOMETRIA — COMPLEMENTO
-- Circunferência do pescoço: ${v('circ_pescoco')} cm
-- Circunferência da cintura: ${v('circ_cintura')} cm
-- Percentual de gordura: ${v('percentual_gordura')}%
-- Massa magra registrada: ${v('massa_magra_avaliacao')} kg
-- Data da avaliação: ${v('data_antropometria')}
-- Método/observações: ${v('metodo_antropometria')}
-
-## 6. HÁBITOS ALIMENTARES — COMPLEMENTO
+## 5. HÁBITOS ALIMENTARES — COMPLEMENTO
 - Alimentação muda nos finais de semana: ${v('mudanca_fim_semana')}
 - Belisca entre refeições: ${v('belisca')}
 - Frequência de delivery/refeições fora: ${v('frequencia_delivery')}
@@ -988,7 +989,7 @@ ${recordatorio || '  — Não informado'}
 - Evacuação incompleta: ${v('evacuacao_incompleta')}
 - Gatilhos dos sintomas: ${v('gatilhos_gi')}
 
-## 11. PREFERÊNCIAS, EXPECTATIVAS E ADESÃO
+## 10. PREFERÊNCIAS, EXPECTATIVAS E ADESÃO
 - Formato de plano preferido: ${v('formato_plano')}
 - Disponibilidade para preparo: ${v('tempo_preparo')}
 - Disposição para mudanças: ${v('disposicao_mudanca')}
