@@ -286,53 +286,10 @@ input:focus,select:focus,textarea:focus{border-color:#648b78;outline:0;box-shado
 .workspace-note{color:#68776f}
 
 
-/* TELA INICIAL DE IDENTIFICAÇÃO DO PACIENTE */
-#identificationGate{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(145deg,#102d26 0%,#173b32 48%,#294f41 100%);overflow-y:auto}
-#identificationGate.hidden{display:none!important}
-.identification-card{width:100%;max-width:510px;background:#fbfaf6;border:1px solid rgba(221,207,177,.55);border-radius:22px;padding:clamp(26px,5vw,44px);box-shadow:0 28px 90px rgba(0,0,0,.28)}
-.identification-brand{display:flex;align-items:center;gap:12px;margin-bottom:28px}
-.identification-mark{width:46px;height:46px;border-radius:14px;background:#e8f0eb;color:#173b32;display:grid;place-items:center;font-size:22px}
-.identification-kicker{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:#9a8052}
-.identification-card h1{font-family:'DM Serif Display',serif;color:#173b32;font-size:clamp(27px,5vw,34px);line-height:1.12;margin:0 0 10px}
-.identification-intro{color:#65736b;font-size:14px;line-height:1.65;margin-bottom:26px}
-.identification-field{margin:17px 0}
-.identification-field label{display:block;color:#34483d;font-weight:600;font-size:13px;margin-bottom:7px}
-.identification-field input{width:100%;height:50px;border:1px solid #d8ded6;border-radius:11px;background:#fff;padding:0 14px;font:15px 'DM Sans',sans-serif;color:#202a27;outline:none}
-.identification-field input:focus{border-color:#648b78;box-shadow:0 0 0 3px rgba(100,139,120,.15)}
-.identification-submit{width:100%;height:52px;border:0;border-radius:11px;background:linear-gradient(135deg,#173b32,#2f6b57);color:#fff;font:600 15px 'DM Sans',sans-serif;margin-top:12px;cursor:pointer;box-shadow:0 7px 18px rgba(23,59,50,.2)}
-.identification-submit:hover{filter:brightness(1.08)}
-.identification-error{min-height:20px;margin-top:10px;color:#a94438;font-size:12px}
-.identification-privacy{border-top:1px solid #e8e3d9;margin-top:23px;padding-top:15px;color:#879189;font-size:11px;line-height:1.55}
-body.identification-locked{overflow:hidden}
-@media(max-width:520px){#identificationGate{padding:14px}.identification-card{border-radius:18px}.identification-intro{font-size:13px}}
-
 </style>
 </head>
-<body class="identification-locked">
-<div id="identificationGate" aria-labelledby="identificationTitle">
-  <div class="identification-card">
-    <div class="identification-brand">
-      <div class="identification-mark">✦</div>
-      <div><div class="identification-kicker">Atendimento nutricional</div><div style="font-family:'DM Serif Display',serif;color:#173b32;font-size:17px">Ficha de avaliação</div></div>
-    </div>
-    <h1 id="identificationTitle">Identificação do paciente</h1>
-    <p class="identification-intro">Preencha seus dados para identificação e registro do atendimento. Eles farão parte da sua ficha nutricional junto com todas as respostas fornecidas nas próximas etapas.</p>
-    <form id="identificationForm" novalidate>
-      <div class="identification-field">
-        <label for="patientFullName">Nome completo <span style="color:#a94438">*</span></label>
-        <input id="patientFullName" type="text" autocomplete="name" maxlength="120" placeholder="Digite seu nome completo" required>
-      </div>
-      <div class="identification-field">
-        <label for="patientPhone">Celular com DDD <span style="color:#a94438">*</span></label>
-        <input id="patientPhone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="16" placeholder="(00) 00000-0000" required>
-      </div>
-      <button class="identification-submit" type="submit">Continuar para a anamnese <span aria-hidden="true">→</span></button>
-      <div id="identificationError" class="identification-error" role="alert" aria-live="polite"></div>
-    </form>
-    <div class="identification-privacy">O nome e o celular informados serão registrados como dados de identificação do paciente e associados às respostas desta ficha nutricional.</div>
-  </div>
-</div>
-<div id="appShell" class="hidden">
+<body>
+<div id="appShell">
 
 <!-- TOP BAR -->
 <div class="topbar">
@@ -351,7 +308,7 @@ body.identification-locked{overflow:hidden}
 <div class="container" id="anamneseWorkspace">
   <div class="page-header">
     <h1>Ficha de avaliação nutricional</h1>
-    <p>Preencha as informações com calma. Suas respostas ajudam a compreender sua rotina, alimentação e necessidades.</p>
+    <p>Preencha as seções relevantes. Os campos complementares podem ser deixados em branco quando não se aplicarem.</p>
     <div class="progress-bar-wrap">
       <div class="progress-label"><span>Progresso de preenchimento</span><span id="progressPct">0%</span></div>
       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -364,13 +321,13 @@ body.identification-locked{overflow:hidden}
     <div class="section">
       <div class="section-header open" onclick="toggleSection(this)">
         <div class="section-icon">👤</div>
-        <div class="section-title"><h3>1. Dados pessoais</h3><small>Identificação do paciente</small></div>
+        <div class="section-title"><h3>1. Dados pessoais</h3><small>Identificação e contato</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body open">
         <div class="field-grid">
-          <div class="field field-full"><label>Nome completo</label><input type="text" name="nome" placeholder="Nome do paciente" readonly></div>
-          <div class="field field-full"><label>Celular com DDD</label><input type="tel" name="celular" placeholder="(00) 00000-0000" inputmode="tel" readonly></div>
+          <div class="field field-full"><label>Nome completo</label><input type="text" name="nome" placeholder="Nome completo" autocomplete="name" required></div>
+          <div class="field field-full"><label>Celular com DDD</label><input type="tel" name="celular" placeholder="(00) 00000-0000" inputmode="tel" autocomplete="tel" required></div>
           <div class="field"><label>Data de nascimento</label><input type="date" name="nascimento"></div>
           <div class="field"><label>Sexo</label>
             <select name="sexo"><option value="">Selecionar</option><option>Feminino</option><option>Masculino</option><option>Outro / Prefiro não informar</option></select>
@@ -385,12 +342,12 @@ body.identification-locked{overflow:hidden}
 
     <!-- 2. QUEIXA E OBJETIVO -->
     <div class="section">
-      <div class="section-header open" onclick="toggleSection(this)">
+      <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🎯</div>
-        <div class="section-title"><h3>2. Queixa principal e objetivo</h3><small>Por que veio e o que espera</small></div>
+        <div class="section-title"><h3>2. Queixa principal e objetivo</h3><small>Queixa e objetivo</small></div>
         <span class="section-chevron">▼</span>
       </div>
-      <div class="section-body open">
+      <div class="section-body">
         <div class="field-grid">
           <div class="field field-full"><label>Motivo da consulta</label><textarea name="motivo" placeholder="O que trouxe o paciente até a consulta?"></textarea></div>
         </div>
@@ -412,7 +369,7 @@ body.identification-locked{overflow:hidden}
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">⚖️</div>
-        <div class="section-title"><h3>3. Histórico de peso e evolução corporal</h3><small>Variações recentes e tentativas anteriores</small></div>
+        <div class="section-title"><h3>3. Histórico de peso e evolução corporal</h3><small>Evolução do peso</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -435,7 +392,7 @@ body.identification-locked{overflow:hidden}
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🏥</div>
-        <div class="section-title"><h3>4. Histórico de saúde</h3><small>Doenças, medicamentos e alergias</small></div>
+        <div class="section-title"><h3>4. Histórico de saúde</h3><small>Condições clínicas e histórico</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -458,13 +415,13 @@ body.identification-locked{overflow:hidden}
           <div class="field field-full"><label>Outras doenças</label><input type="text" name="dx_outras" placeholder="Descreva se houver"></div>
           <div class="field field-full"><label>Cirurgias ou internações relevantes</label><input type="text" name="cirurgias" placeholder="Descreva se houver"></div>
           <div class="field field-full"><label>Histórico familiar relevante</label><input type="text" name="hist_familiar" placeholder="Ex: diabetes, obesidade, doenças cardiovasculares..."></div>
-          <div class="field field-full"><label>Medicamentos em uso (nome, dose e frequência)</label><textarea name="medicamentos" placeholder="Liste cada medicamento separadamente"></textarea></div>
+          <div class="field field-full"><label>Medicamentos (nome, dose e frequência)</label><textarea name="medicamentos" placeholder="Liste cada medicamento separadamente"></textarea></div>
           <div class="field field-full"><label>Suplementos em uso</label><textarea name="suplementos" placeholder="Ex: whey protein 30g/dia, vitamina D 2000UI/dia..."></textarea></div>
           <div class="field field-full"><label>Alergias e intolerâncias alimentares</label><textarea name="alergias" placeholder="Ex: lactose, glúten, frutos do mar..."></textarea></div>
           <div class="field"><label>Doenças estão controladas?</label><select name="doencas_controladas"><option value="">Selecionar</option><option>Sim</option><option>Não</option><option>Parcialmente</option><option>Não se aplica / não sabe</option></select></div>
           <div class="field"><label>Faz acompanhamento médico?</label><select name="acompanhamento_medico"><option value="">Selecionar</option><option>Sim</option><option>Não</option></select></div>
           <div class="field field-full"><label>Exames laboratoriais recentes (data e resultados)</label><textarea name="exames_laboratoriais" placeholder="Registre apenas exames disponíveis e relevantes, com data e valores: glicemia, HbA1c, perfil lipídico, função renal/hepática, hemograma, TSH etc."></textarea></div>
-          <div class="field field-full"><label>Diagnósticos, orientações ou restrições informadas por profissionais de saúde</label><textarea name="orientacoes_saude" placeholder="Descreva orientações recebidas e eventuais restrições clínicas."></textarea></div>
+          <div class="field field-full"><label>Diagnósticos, orientações ou restrições de saúde</label><textarea name="orientacoes_saude" placeholder="Descreva orientações recebidas e eventuais restrições clínicas."></textarea></div>
         </div>
       </div>
     </div>
@@ -473,7 +430,7 @@ body.identification-locked{overflow:hidden}
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">📏</div>
-        <div class="section-title"><h3>5. Dados antropométricos</h3><small>Peso, altura e medidas</small></div>
+        <div class="section-title"><h3>5. Dados antropométricos</h3><small>Medidas disponíveis</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -483,11 +440,11 @@ body.identification-locked{overflow:hidden}
           <div class="field"><label>IMC calculado</label><input type="text" name="imc" id="imcField" readonly placeholder="—" style="background:#f0f0f0;color:#555"></div>
           <div class="field"><label>Peso habitual (kg)</label><input type="number" name="peso_habitual" step="0.1" placeholder="Antes de qualquer mudança"></div>
           <div class="field"><label>Peso desejado (kg)</label><input type="number" name="peso_desejado" step="0.1" placeholder="Meta do paciente"></div>
-          <div class="field"><label>Circ. abdominal (cm)</label><input type="number" name="ca" step="0.1"></div>
+          <div class="field"><label>Circunferência da cintura/abdômen (cm)</label><input type="number" name="ca" step="0.1"></div>
           <div class="field"><label>Circ. do quadril (cm)</label><input type="number" name="cq" step="0.1"></div>
           <div class="field"><label>Pressão arterial</label><input type="text" name="pa" placeholder="Ex: 120/80 mmHg"></div>
           <div class="field"><label>Circunferência do pescoço (cm)</label><input type="number" step="0.1" name="circ_pescoco"></div>
-          <div class="field"><label>Circunferência da cintura (cm)</label><input type="number" step="0.1" name="circ_cintura"></div>
+          <div class="field"><label>Circunferência da cintura/abdômen — medida alternativa (cm)</label><input type="number" step="0.1" name="circ_cintura"></div>
           <div class="field"><label>Percentual de gordura (%)</label><input type="number" step="0.1" name="percentual_gordura"></div>
           <div class="field"><label>Massa magra (kg)</label><input type="number" step="0.1" name="massa_magra_avaliacao"></div>
           <div class="field"><label>Data da avaliação antropométrica</label><input type="date" name="data_antropometria"></div>
@@ -500,7 +457,7 @@ body.identification-locked{overflow:hidden}
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🥗</div>
-        <div class="section-title"><h3>6. Hábitos alimentares</h3><small>Rotina e recordatório 24h</small></div>
+        <div class="section-title"><h3>6. Hábitos alimentares</h3><small>Rotina e alimentação habitual</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -529,8 +486,8 @@ body.identification-locked{overflow:hidden}
         </div>
         <div class="divider"></div>
         <div class="field-grid">
-          <div class="field field-full"><label>Alimentos preferidos / consumidos com frequência</label><textarea name="alimentos_pref" placeholder="Liste os que aparecem mais na rotina"></textarea></div>
-          <div class="field field-full"><label>Alimentos não tolerados / não apreciados</label><textarea name="alimentos_aversao" placeholder="Inclua aversões e motivos se conhecidos"></textarea></div>
+          <div class="field field-full"><label>Alimentos habituais e preferidos</label><textarea name="alimentos_pref" placeholder="Liste os que aparecem mais na rotina"></textarea></div>
+          <div class="field field-full"><label>Alimentos que evita ou não tolera</label><textarea name="alimentos_aversao" placeholder="Inclua aversões e motivos se conhecidos"></textarea></div>
           <div class="field"><label>Alimentação muda nos finais de semana?</label><select name="mudanca_fim_semana"><option value="">Selecionar</option><option>Não</option><option>Sim, um pouco</option><option>Sim, bastante</option></select></div>
           <div class="field"><label>Costuma beliscar entre refeições?</label><select name="belisca"><option value="">Selecionar</option><option>Nunca</option><option>Às vezes</option><option>Frequentemente</option></select></div>
           <div class="field"><label>Frequência de refeições fora/delivery</label><select name="frequencia_delivery"><option value="">Selecionar</option><option>Raramente</option><option>1–2 vezes/semana</option><option>3–5 vezes/semana</option><option>Quase diariamente</option></select></div>
@@ -552,7 +509,7 @@ body.identification-locked{overflow:hidden}
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🛒</div>
-        <div class="section-title"><h3>7. Condições socioeconômicas e acesso aos alimentos</h3><small>Orçamento, compras e estrutura disponível</small></div>
+        <div class="section-title"><h3>7. Condições socioeconômicas e acesso aos alimentos</h3><small>Acesso e preparo dos alimentos</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -563,7 +520,7 @@ body.identification-locked{overflow:hidden}
           <div class="field"><label>Tem acesso a geladeira e freezer?</label><select name="geladeira_freezer"><option value="">Selecionar</option><option>Ambos</option><option>Apenas geladeira</option><option>Não</option></select></div>
           <div class="field"><label>Tem fogão e utensílios para cozinhar?</label><select name="estrutura_cozinha"><option value="">Selecionar</option><option>Sim, estrutura completa</option><option>Parcialmente</option><option>Não</option></select></div>
           <div class="field"><label>Consegue levar e armazenar marmita?</label><select name="leva_marmita"><option value="">Selecionar</option><option>Sim</option><option>Não</option><option>Às vezes</option><option>Não se aplica</option></select></div>
-          <div class="field field-full"><label>Limitações de acesso, custo ou disponibilidade</label><textarea name="limitacoes_alimentos" placeholder="Alimentos caros, distância de mercados, falta de tempo, estrutura para cozinhar, restrições familiares etc."></textarea></div>
+          <div class="field field-full"><label>Dificuldades de acesso, custo ou disponibilidade</label><textarea name="limitacoes_alimentos" placeholder="Alimentos caros, distância de mercados, falta de tempo, estrutura para cozinhar, restrições familiares etc."></textarea></div>
         </div>
       </div>
     </div>
@@ -572,7 +529,7 @@ body.identification-locked{overflow:hidden}
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🧠</div>
-        <div class="section-title"><h3>8. Comportamento alimentar</h3><small>Relação emocional com a comida</small></div>
+        <div class="section-title"><h3>8. Comportamento alimentar</h3><small>Fome, apetite e comportamento</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -598,7 +555,7 @@ body.identification-locked{overflow:hidden}
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🏃</div>
-        <div class="section-title"><h3>9. Atividade física e sono</h3><small>Gasto energético e recuperação</small></div>
+        <div class="section-title"><h3>9. Atividade física e sono</h3><small>Treino, rotina e sono</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -628,7 +585,7 @@ body.identification-locked{overflow:hidden}
           <div class="field"><label>Horário habitual de acordar</label><input type="time" name="hora_acordar"></div>
           <div class="field"><label>Horário habitual de dormir</label><input type="time" name="hora_dormir"></div>
           <div class="field"><label>Tempo sentado por dia</label><select name="tempo_sentado"><option value="">Selecionar</option><option>Menos de 4 horas</option><option>4 a 6 horas</option><option>6 a 8 horas</option><option>Mais de 8 horas</option><option>Não sabe informar</option></select></div>
-          <div class="field field-full"><label>Limitações físicas, dores ou restrições para atividade</label><textarea name="limitacoes_atividade" placeholder="Descreva limitações que afetem a prática de atividade física."></textarea></div>
+          <div class="field field-full"><label>Dores ou restrições para atividade física</label><textarea name="limitacoes_atividade" placeholder="Descreva limitações que afetem a prática de atividade física."></textarea></div>
           <div class="field field-full"><label>Rotina diária e horários em que consegue fazer refeições</label><textarea name="rotina_horarios" placeholder="Ex.: acorda às 6h, trabalha das 8h às 17h, almoça no trabalho, treina às 19h..."></textarea></div>
         </div>
       </div>
@@ -638,7 +595,7 @@ body.identification-locked{overflow:hidden}
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🩺</div>
-        <div class="section-title"><h3>10. Sintomas gastrointestinais</h3><small>Queixas digestivas frequentes</small></div>
+        <div class="section-title"><h3>10. Sintomas gastrointestinais</h3><small>Sintomas e funcionamento intestinal</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -657,7 +614,7 @@ body.identification-locked{overflow:hidden}
         <div class="divider"></div>
         <div class="field-grid">
           <div class="field"><label>Frequência de evacuações por semana</label><input type="number" name="evacuacoes" placeholder="Ex: 5"></div>
-          <div class="field"><label>Consistência das fezes (Escala de Bristol)</label><select name="bristol"><option value="">Selecionar</option><option>Tipo 1 — bolinhas duras</option><option>Tipo 2 — formato de salsicha irregular</option><option>Tipo 3 — salsicha com rachaduras</option><option>Tipo 4 — lisa e macia</option><option>Tipo 5 — pedaços macios</option><option>Tipo 6 — pastosa</option><option>Tipo 7 — líquida</option><option>Não sabe informar</option></select></div>
+          <div class="field"><label>Consistência das fezes (Bristol)</label><select name="bristol"><option value="">Selecionar</option><option>Tipo 1 — bolinhas duras</option><option>Tipo 2 — formato de salsicha irregular</option><option>Tipo 3 — salsicha com rachaduras</option><option>Tipo 4 — lisa e macia</option><option>Tipo 5 — pedaços macios</option><option>Tipo 6 — pastosa</option><option>Tipo 7 — líquida</option><option>Não sabe informar</option></select></div>
           <div class="field"><label>Há dor ou desconforto abdominal?</label><select name="dor_abdominal"><option value="">Selecionar</option><option>Não</option><option>Sim, ocasionalmente</option><option>Sim, frequentemente</option></select></div>
           <div class="field"><label>Sensação de evacuação incompleta?</label><select name="evacuacao_incompleta"><option value="">Selecionar</option><option>Não</option><option>Às vezes</option><option>Frequentemente</option></select></div>
           <div class="field field-full"><label>Alimentos ou situações que desencadeiam sintomas</label><textarea name="gatilhos_gi" placeholder="Alimento, quantidade, horário e quanto tempo depois os sintomas aparecem."></textarea></div>
@@ -670,7 +627,7 @@ body.identification-locked{overflow:hidden}
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">🎯</div>
-        <div class="section-title"><h3>11. Preferências, expectativas e adesão</h3><small>O que torna o plano possível de seguir</small></div>
+        <div class="section-title"><h3>11. Preferências, expectativas e adesão</h3><small>Preferências e viabilidade</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -679,8 +636,8 @@ body.identification-locked{overflow:hidden}
           <div class="field"><label>Disponibilidade para preparar refeições</label><select name="tempo_preparo"><option value="">Selecionar</option><option>Diariamente</option><option>Alguns dias na semana</option><option>Apenas preparo rápido</option><option>Quase nenhuma</option></select></div>
           <div class="field"><label>Disposição para mudanças neste momento</label><select name="disposicao_mudanca"><option value="">Selecionar</option><option>Alta</option><option>Moderada</option><option>Baixa</option><option>Está avaliando</option></select></div>
           <div class="field"><label>Prazo de objetivo inicial</label><select name="prazo_objetivo"><option value="">Selecionar</option><option>1 mês</option><option>3 meses</option><option>6 meses</option><option>Sem prazo definido</option></select></div>
-          <div class="field field-full"><label>Principais dificuldades para seguir um plano alimentar</label><textarea name="dificuldades_adesao" placeholder="Fome, ansiedade, rotina, custo, refeições em família, trabalho, eventos sociais etc."></textarea></div>
-          <div class="field field-full"><label>Primeira mudança que o paciente acredita conseguir implementar</label><textarea name="primeira_mudanca" placeholder="Registre uma meta pequena, específica e viável."></textarea></div>
+          <div class="field field-full"><label>Principais dificuldades para manter o plano</label><textarea name="dificuldades_adesao" placeholder="Fome, ansiedade, rotina, custo, refeições em família, trabalho, eventos sociais etc."></textarea></div>
+          <div class="field field-full"><label>Mudança inicial que consegue implementar</label><textarea name="primeira_mudanca" placeholder="Registre uma meta pequena, específica e viável."></textarea></div>
           <div class="field field-full"><label>Alimentos que gostaria de manter no plano</label><textarea name="alimentos_manter" placeholder="Preferências importantes para a adesão."></textarea></div>
         </div>
       </div>
@@ -690,7 +647,7 @@ body.identification-locked{overflow:hidden}
     <div class="section">
       <div class="section-header" onclick="toggleSection(this)">
         <div class="section-icon">📝</div>
-        <div class="section-title"><h3>12. Avaliação e conduta nutricional</h3><small>Impressão clínica e pontos de atenção</small></div>
+        <div class="section-title"><h3>12. Avaliação e conduta nutricional</h3><small>Uso profissional — avaliação e conduta</small></div>
         <span class="section-chevron">▼</span>
       </div>
       <div class="section-body">
@@ -1076,69 +1033,6 @@ function copyPrompt() {
 loadForm();
 </script>
 </div><!-- /appShell -->
-
-<script>
-// === COLETA DOS DADOS DE IDENTIFICAÇÃO DO PACIENTE ===
-(function(){
-  const gate = document.getElementById('identificationGate');
-  const app = document.getElementById('appShell');
-  const nameInput = document.getElementById('patientFullName');
-  const phoneInput = document.getElementById('patientPhone');
-  const form = document.getElementById('identificationForm');
-  const error = document.getElementById('identificationError');
-  const patientNameField = document.querySelector('#anamneseForm [name="nome"]');
-  const patientPhoneField = document.querySelector('#anamneseForm [name="celular"]');
-
-  function digits(value){ return (value || '').replace(/\D/g,''); }
-  function maskPhone(value){
-    const d = digits(value).slice(0,11);
-    if(d.length <= 2) return d.length ? '(' + d : '';
-    if(d.length <= 6) return '(' + d.slice(0,2) + ') ' + d.slice(2);
-    if(d.length <= 10) return '(' + d.slice(0,2) + ') ' + d.slice(2,6) + '-' + d.slice(6);
-    return '(' + d.slice(0,2) + ') ' + d.slice(2,7) + '-' + d.slice(7);
-  }
-  phoneInput.addEventListener('input', () => {
-    const start = phoneInput.selectionStart;
-    const before = phoneInput.value;
-    phoneInput.value = maskPhone(before);
-    error.textContent = '';
-  });
-  nameInput.addEventListener('input', () => { error.textContent = ''; });
-
-  // Recupera os dados já preenchidos nesta ficha, quando disponíveis no mesmo navegador.
-  try {
-    const saved = JSON.parse(localStorage.getItem('anamnese_v1') || '{}');
-    if(saved.nome) nameInput.value = saved.nome;
-    if(saved.celular) phoneInput.value = maskPhone(saved.celular);
-  } catch(e) {}
-
-  form.addEventListener('submit', function(event){
-    event.preventDefault();
-    const fullName = nameInput.value.trim().replace(/\s+/g,' ');
-    const phoneDigits = digits(phoneInput.value);
-    if(fullName.split(' ').filter(Boolean).length < 2){
-      error.textContent = 'Informe seu nome completo (nome e sobrenome).';
-      nameInput.focus();
-      return;
-    }
-    if(phoneDigits.length !== 10 && phoneDigits.length !== 11){
-      error.textContent = 'Informe um celular válido com DDD, contendo 10 ou 11 números.';
-      phoneInput.focus();
-      return;
-    }
-    patientNameField.value = fullName;
-    patientPhoneField.value = maskPhone(phoneDigits);
-    if(typeof saveForm === 'function') saveForm();
-    gate.classList.add('hidden');
-    app.classList.remove('hidden');
-    document.body.classList.remove('identification-locked');
-    // Recalcula a barra de progresso após preencher os dados de identificação.
-    if(typeof updateProgress === 'function') updateProgress();
-    // Os dados de identificação já foram registrados nos campos da anamnese.\n    // Mantém a navegação no início da ficha.
-    window.scrollTo({top:0,behavior:'instant'});
-  });
-})();
-</script>
 
 </body>
 </html>
